@@ -77,36 +77,24 @@ const Auth = () => {
   };
 
   const onSubmitSignIn = async (values: z.infer<typeof SignInformSchema>) => {
-    const router = useRouter();
+    try{
 
-  try {
-    const response = await axios.post("/api/signin", values);
+      const user = await axios.post("/api/signin", values);
 
-    if (response.status === 200 && response.data.token) {
-      // Authentication successful
+      if(user){
+        router.push("/dashboard");
+        toast.success("authorised")
+      }
 
-      // Set the JWT token as a cookie
-      const token = response.data.token;
-      document.cookie = Cookies.set('token', token, {
-        maxAge: 60 * 60, // 1 hour
-        path: '/',
-      });
+    }catch(error){
+      toast.error("Unauthorised");
+      console.log(`POST error ${error}`)
 
-      // Display success message
-      toast.success("Authorized");
-
-      // Redirect to the dashboard
-      router.push("/dashboard");
-    } else {
-      // Authentication failed
-      toast.error("Not Authorized");
     }
-  } catch (error) {
-    console.error("Error during sign-in:", error);
-    toast.error("Internal Server Error");
-  }
+
+  
 };
-  };
+  
 
   return (
     <div className="flex flex-col mx-auto w-[90%] h-full">
