@@ -2,11 +2,13 @@ import Navbar from "@/components/navbar";
 
 const Dashboard = () => {
   return (
-    <div>
-      <div>
-        <Navbar />
+    <div className="flex flex-col">
+      <div>Navbar</div>
+      <div className="flex flex-row">
+        <div>Sidebar</div>
+        <div>Mainbar</div>
       </div>
-      Dashboard
+      
     </div>
   );
 };
